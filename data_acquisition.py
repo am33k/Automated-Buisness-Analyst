@@ -2,7 +2,7 @@ import pandas as pd
 import requests
 import os
 
-ALPHA_VANTAGE_API_KEY = os.getenv('ALPHA_VANTAGE_API_KEY', '57OMZA38QHEMBDOB')
+ALPHA_VANTAGE_API_KEY = os.getenv('ALPHA_VANTAGE_API_KEY')
 
 def get_stock_data(symbol="IBM"):
     """Fetches daily time series data for a stock from Alpha Vantage"""
