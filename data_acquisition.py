@@ -39,16 +39,18 @@ if __name__=="__main__":
     stock_df = get_stock_data("IBM")
     print(stock_df.head()) 
 
-def get_marketing_data():
-    """Fetches mock marketing data from web url"""
+# data_acquisition.py (update the get_marketing_data function)
+def get_marketing_data(stock_dates=None):
+    """Fetches mock marketing data from a web URL.
+    If stock_dates is provided, generates marketing data for the same period.
+    """
     # Using a public dataset URL for reliability
     url = "https://raw.githubusercontent.com/mwaskom/seaborn-data/master/iris.csv"
-    # this sis a famous iris ddataset, lets PRETEND thast its our marketing data with 'sales' and 'clicks'
-
     try:
         df = pd.read_csv(url)
         print("Successfully fetched marketing data.")
-        # We are going to rename columns to make it seem like marketing data for our project
+
+        # Rename columns to make it seem like marketing data for our project
         df = df.rename(columns={
             'sepal_length': 'daily_visitors',
             'sepal_width': 'click_through_rate',
@@ -56,10 +58,23 @@ def get_marketing_data():
             'petal_width': 'avg_order_value',
             'species': 'campaign_id'
         })
-        # Lets add a date index to make it a time series for our dashboard
-        dates = pd.date_range(start='2023-01-01', periods=len(df), freq='D')
+
+        # --- CRITICAL FIX: Align dates with stock data ---
+        if stock_dates is not None:
+            # Generate dates matching the stock data's date range and length
+            num_days = len(stock_dates)
+            # If we have more marketing data rows than stock days, trim it.
+            df = df.head(num_days)
+            # Create a date index starting from the first stock date
+            dates = pd.date_range(start=stock_dates.min(), periods=len(df), freq='D')
+        else:
+            # Fallback: use the old method if no stock_dates are provided
+            dates = pd.date_range(start='2023-01-01', periods=len(df), freq='D')
+
         df['date'] = dates
         df.set_index('date', inplace=True)
+        
+
         return df
     except Exception as e:
         print(f"Error fetching marketing data: {e}")
