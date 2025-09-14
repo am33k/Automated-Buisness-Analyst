@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Business Performance Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 40px;
+            line-height: 1.6;
+            color: #333;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        .header p {
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .section h2 {
+            color: #3498db;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+        }
+        .kpi-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .kpi {
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin: 10px;
+            min-width: 150px;
+        }
+        .kpi .value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .kpi .label {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        .chart {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .chart img {
+            max-width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 4px;
+        }
+        .insights {
+            background-color: #e3f2fd;
+            padding: 20px;
+            border-left: 4px solid #3498db;
+            border-radius: 4px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Weekly Business Performance Report</h1>
+        <p>Generated on {{ report_date }}</p>
+    </div>
+
+    <div class="section">
+        <h2>Executive Summary</h2>
+        <p>This report covers business performance from {{ start_date }} to {{ end_date }}. Key metrics include stock performance, marketing ROI, and sales analytics.</p>
+        
+        <div class="kpi-container">
+            <div class="kpi">
+                <div class="value">${{ "%.2f"|format(avg_sales) }}</div>
+                <div class="label">Avg. Daily Sales</div>
+            </div>
+            <div class="kpi">
+                <div class="value">{{ "%.2f"|format(avg_roas) }}x</div>
+                <div class="label">Avg. ROAS</div>
+            </div>
+            <div class="kpi">
+                <div class="value">${{ "%.2f"|format(final_stock_price) }}</div>
+                <div class="label">Final Stock Price</div>
+            </div>
+            <div class="kpi">
+                <div class="value">{{ total_observations }}</div>
+                <div class="label">Days Analyzed</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Performance Trends</h2>
+        <div class="chart">
+            <img src="data:image/png;base64,{{ trend_chart_base64 }}" alt="Trend Analysis Chart">
+        </div>
+        <div class="insights">
+            <h3>Insights:</h3>
+            <p>{{ trend_insight }}</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Marketing Campaign Performance</h2>
+        <div class="chart">
+            <img src="data:image/png;base64,{{ roas_chart_base64 }}" alt="ROAS by Campaign Chart">
+        </div>
+        <div class="insights">
+            <h3>Insights:</h3>
+            <p>{{ roas_insight }}</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Report generated automatically by Business Analytics Pipeline</p>
+    </div>
+</body>
+</html>
